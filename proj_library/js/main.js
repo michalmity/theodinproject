@@ -56,7 +56,16 @@ function displayBooks() {
     titleCell.textContent = book.title;
     authorCell.textContent = book.author;
     pagesCell.textContent = book.pages;
-    readCell.textContent = book.read ? "Read" : "Not Read";
+
+    // Add read button
+    let readButton = document.createElement("button");
+    readButton.textContent = book.read ? "Read" : "Not Read";
+    readButton.onclick = function () {
+      changeBookStatus(book.id);
+      readButton.textContent = book.read ? "Read" : "Not Read";
+    };
+    readCell.appendChild(readButton);
+
 
     // Add delete button
     let deleteButton = document.createElement("button");
@@ -109,12 +118,29 @@ function addBookFromModal(e)
   addBookToLibrary(i_Title, i_Author, i_Pages, i_Read);
 }
 
-function deleteBook(id) {
+function deleteBook(id) 
+{
   let position = myLibrary.findIndex((book) => book.id === id);
-  if (position !== -1) {
+  if (position !== -1) 
+    {
     myLibrary.splice(position, 1);
     console.log(`Book with ID ${id} deleted.`);
-  } else {
+  } else 
+  {
+    console.error(`Book with ID ${id} not found.`);
+  }
+}
+
+function changeBookStatus(id)
+{
+  let bookIndex = myLibrary.findIndex((book) => book.id === id);
+  if (bookIndex !== -1) 
+  {
+    myLibrary[bookIndex].read = !myLibrary[bookIndex].read;
+    console.log(`Book with ID ${id} read status changed to ${myLibrary[bookIndex].read ? "Read" : "Not Read"}.`);
+  }
+  else 
+  {
     console.error(`Book with ID ${id} not found.`);
   }
 }
