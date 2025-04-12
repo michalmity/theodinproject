@@ -19,12 +19,13 @@ function Book(id, title, author, pages, read) {
   };
 }
 
-function addBookToLibrary(title, author, pages, read) {
+function addBookToLibrary(title, author, pages, read) 
+{
   let id = crypto.randomUUID();
-  let book = new Book(id, title, author, pages, read);
+  let book = new Book(id, title, author, pages, read)
   myLibrary.push(book);
-  console.log(book.info());
-  console.log(myLibrary.length);
+  //console.log(book.info());
+  //console.log(myLibrary.length);
 };
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
@@ -34,7 +35,9 @@ addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, false);
 addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281, true);
 
 
-function displayBooks() {
+function displayBooks()
+{
+  console.log("Triggered displayBooks function")
   let table = document.getElementById("table");
   
 
@@ -59,4 +62,42 @@ function displayBooks() {
   };
 };
 
+function openModal()
+{
+  console.log("Triggered openModal function")
+  const modal = document.getElementById("modal");
+  if(window.getComputedStyle(modal).display === "none")
+  {
+    modal.style.display = "flex";
+  }
+  else
+  {
+    modal.style.display = "none";
+  }
+}
 
+document.addEventListener("DOMContentLoaded", () => {
+  const formElement = document.getElementById("form");
+
+  if (formElement) {
+    formElement.onsubmit = function (e) {
+      addBookFromModal(e);
+    };
+  } else {
+    console.error("Form element with ID 'form' not found.");
+  }
+});
+
+function addBookFromModal(e)
+{
+  e.preventDefault();
+
+  const i_Title = document.getElementById("i-title").value;
+  const i_Author = document.getElementById("i-author").value;
+  const i_Pages = document.getElementById("i-pages").value;
+  const i_Read = document.getElementById("i-read").checked;
+
+  console.log(i_Read);
+
+  addBookToLibrary(i_Title, i_Author, i_Pages, i_Read);
+}
