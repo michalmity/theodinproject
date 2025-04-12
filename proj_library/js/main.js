@@ -35,23 +35,21 @@ addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, false);
 addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281, true);
 
 
-function displayBooks()
-{
-  console.log("Triggered displayBooks function")
+function displayBooks() {
+  console.log("Triggered displayBooks function");
   let table = document.getElementById("table");
-  
 
   for (let i = 0; i < myLibrary.length; i++) {
     let book = myLibrary[i];
     let newRow = table.insertRow();
 
     // Insert cells for each book property
-    let idCell = newRow.insertCell(0)
+    let idCell = newRow.insertCell(0);
     let titleCell = newRow.insertCell(1);
     let authorCell = newRow.insertCell(2);
     let pagesCell = newRow.insertCell(3);
     let readCell = newRow.insertCell(4);
-    
+    let deleteCell = newRow.insertCell(5);
 
     // Populate cells with book data
     idCell.textContent = book.id;
@@ -59,8 +57,17 @@ function displayBooks()
     authorCell.textContent = book.author;
     pagesCell.textContent = book.pages;
     readCell.textContent = book.read ? "Read" : "Not Read";
-  };
-};
+
+    // Add delete button
+    let deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = function () {
+      deleteBook(book.id);
+      table.deleteRow(newRow.rowIndex);
+    };
+    deleteCell.appendChild(deleteButton);
+  }
+}
 
 function openModal()
 {
@@ -100,4 +107,14 @@ function addBookFromModal(e)
   console.log(i_Read);
 
   addBookToLibrary(i_Title, i_Author, i_Pages, i_Read);
+}
+
+function deleteBook(id) {
+  let position = myLibrary.findIndex((book) => book.id === id);
+  if (position !== -1) {
+    myLibrary.splice(position, 1);
+    console.log(`Book with ID ${id} deleted.`);
+  } else {
+    console.error(`Book with ID ${id} not found.`);
+  }
 }
